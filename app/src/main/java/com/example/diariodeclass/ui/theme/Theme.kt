@@ -265,6 +265,7 @@ fun DiarioDeClassTheme(
 
         darkTheme -> darkScheme
         else -> lightScheme
+
     }
 
     MaterialTheme(
