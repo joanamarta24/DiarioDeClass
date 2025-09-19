@@ -1,3 +1,4 @@
+import android.os.Build.VERSION_CODES_FULL.R
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
@@ -10,5 +11,5 @@ val AbrilFatface = FontFamily(
 )
 val Montserrat = FontFamily(
     Font(R.font.montserrat_regular),
-    Font(R.font.montserrat_bold, FontWeight.Bold)
+    Font(R.font.montserrat_bold, weight = FontWeight.Bold)
 )
