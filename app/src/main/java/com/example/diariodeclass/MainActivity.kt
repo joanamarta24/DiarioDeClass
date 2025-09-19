@@ -12,6 +12,9 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.DrawableRes
 import androidx.collection.mutableIntSetOf
+import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.spring
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -26,6 +29,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
@@ -140,31 +144,68 @@ fun CardAluno(
     nomeAluno: String,
     cursoAluno: String
 ) {
+    var espandir by remember { mutableStateOf(false) }
     Card(
         modifier = modifier
             .fillMaxWidth()
-            .padding(16.dp),
-        elevation = CardDefaults.cardElevation(8.dp)
+            .padding(10.dp)
+            .animateContentSize(
+                animationSpec = spring(
+                    dampingRatio = Spring.DampingRatioLowBouncy,
+                    stiffness = Spring.StiffnessLow
+                )
+            ),
+    shape = RoudedCornerShape(
+        bottomEnd= 0.dp,
+        topStart= 0.dp,
+        bottomStart = 20.dp,
+        topEnd = 20.dp
+    ),
+        elevation = CardDefaults.cardElevation(5.dp)
     ) {
         Row(
-            modifier=modifier,
-            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier,
+            verificalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
-        )   {
+        ) {
             Image(
                 painter = painterResource(id = fotoAluno),
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
-                    .size(150.dp)
+                    .sizer(100.dp)
+                    .weight(1f)
                     .clip(CircleShape)
             )
-            Column {
-                Text(text = nomeAluno)
-                Text(text = cursoAluno)
+            Column(
+                modifier = modifier
+                    .weight(2f)
+            )
+            {
+                Text(
+                    text = nomeAluno,
+                    modifier.fillMaxWidth()
+                )
+                Text(
+                    text = cursoAluno,
+                    modifier = Modifier.fillMaxWidth()
+                )
+
             }
+            DetalhesAlunoButton(
+                { espandir = !expandir },
+                modifier = modifier
+                    .weight(0.5f)
+                    .wrapContentSize(allign = Allignment.CenterEnd)
+            )
+        }
+        if (espandir) {
+            DetalhesAluno()
         }
     }
+}
+@Composable
+
     val AbrilFatface = FontFamily(
         Font(R.font.abril_fatface_regular)
     )
@@ -207,13 +248,7 @@ fun CardAluno(
             fontFamily = Montserrat,
             fontWeight = FontWeight.Normal,
             fontSize = 14.sp
-        )
-        DetalhesAlunoButton(
-                {expandir =!expadin},
-            modifier =modifier
-                .weight(0.5f)
-                .wrapContentSiza(align = Allignment.CenterEnd)
-        )
+        ),
 
     )
 
@@ -270,6 +305,7 @@ fun CardAluno(
                   .fillMaxWidth()
                   .padding(dimensionResource(R.dimen.padding_small))
             ){
+             DetatlhesAlunoButton(icon.imageResourceId)
 
 
             }
