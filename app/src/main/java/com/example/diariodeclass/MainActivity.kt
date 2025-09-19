@@ -2,7 +2,10 @@
 
 package com.example.diariodeclass
 
+import AbrilFatface
+import Montserrat
 import android.R.attr.icon
+import android.R.attr.onClick
 import android.R.attr.title
 import android.graphics.drawable.Icon
 import android.os.Build.VERSION_CODES_FULL.R
@@ -33,11 +36,13 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ExpandMore
 import androidx.compose.material3.AlertDialogDefaults.containerColor
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -71,6 +76,7 @@ import com.example.diariodeclass.ui.theme.DiarioDeClassTheme
 import com.rafaelcosta.diariodeclass.data.Aluno
 import androidx.compose.material3.Icon
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.input.key.Key.Companion.Ro
 import androidx.compose.ui.res.dimensionResource
 
 private val Any.padding_small: Int
@@ -137,7 +143,6 @@ fun ListaDeAlunos(
 }
 
 @Composable
-
 fun CardAluno(
     modifier: Modifier = Modifier,
     @DrawableRes fotoAluno: Int,
@@ -155,17 +160,17 @@ fun CardAluno(
                     stiffness = Spring.StiffnessLow
                 )
             ),
-    shape = RoudedCornerShape(
-        bottomEnd= 0.dp,
-        topStart= 0.dp,
-        bottomStart = 20.dp,
-        topEnd = 20.dp
-    ),
+        shape = RoundedCornerShape(
+            bottomEnd= 0.dp,
+            topStart= 0.dp,
+            bottomStart = 20.dp,
+            topEnd = 20.dp
+        ),
         elevation = CardDefaults.cardElevation(5.dp)
     ) {
         Row(
             modifier = Modifier,
-            verificalAlignment = Alignment.CenterVertically,
+            verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
         ) {
             Image(
@@ -173,7 +178,7 @@ fun CardAluno(
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
-                    .sizer(100.dp)
+                    .size(100.dp)
                     .weight(1f)
                     .clip(CircleShape)
             )
@@ -205,123 +210,171 @@ fun CardAluno(
     }
 }
 @Composable
-
-    val AbrilFatface = FontFamily(
-        Font(R.font.abril_fatface_regular)
-    )
-
-    val Montserrat = FontFamily(
-        Font(R.font.montserrat_regular),
-        Font(R.font.montserrat_bold, weight = FontWeight.Bold)
-    )
-
-    val AppTypography = Typography(
-        displayLarge = TextStyle(
-            fontFamily = AbrilFatface,
-            fontWeight = FontWeight.Normal,
-            fontSize = 36.sp
-        ),
-        bodyLarge = TextStyle(
-            fontFamily = Montserrat,
-            fontWeight = FontWeight.Normal,
-            fontSize = 16.sp
+fun DetalhesAlunoButton(
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    IconButton(
+        onClick = onClick,
+        modifier = modifier
+    ) {
+        Icon(
+            imageVector = Icons.Filled.ExpandMore,
+            contentDescription = null,
+            tint = MaterialTheme.colorScheme.secondary
         )
+    }
+
+}
+
+val AppTypography = Typography(
+    displayLarge = TextStyle(
+        fontFamily = AbrilFatface,
+        fontWeight = FontWeight.Normal,
+        fontSize = 36.sp
+    ),
+    bodyLarge = TextStyle(
+        fontFamily = Montserrat,
+        fontWeight = FontWeight.Normal,
+        fontSize = 16.sp
+    )
+)
+
+val Typography = Typography(
+    displayLarge = TextStyle(
+        fontFamily = AbrilFatface,
+        fontWeight = FontWeight.Normal,
+        fontSize = 36.sp
+    ),
+    displayMedium = TextStyle(
+        fontFamily = Montserrat,
+        fontWeight = FontWeight.Bold,
+        fontSize = 20.sp
+    ),
+    labelSmall = TextStyle(
+        fontFamily = Montserrat,
+        fontWeight = FontWeight.Bold,
+        fontSize = 14.sp
+    ),
+    bodyLarge = TextStyle(
+        fontFamily = Montserrat,
+        fontWeight = FontWeight.Normal,
+        fontSize = 14.sp
+    ),
+
     )
 
-    val Typography = Typography(
-        displayLarge = TextStyle(
-            fontFamily = AbrilFatface,
-            fontWeight = FontWeight.Normal,
-            fontSize = 36.sp
-        ),
-        displayMedium = TextStyle(
-            fontFamily = Montserrat,
-            fontWeight = FontWeight.Bold,
-            fontSize = 20.sp
-        ),
-        labelSmall = TextStyle(
-            fontFamily = Montserrat,
-            fontWeight = FontWeight.Bold,
-            fontSize = 14.sp
-        ),
-        bodyLarge = TextStyle(
-            fontFamily = Montserrat,
-            fontWeight = FontWeight.Normal,
-            fontSize = 14.sp
-        ),
+@Composable
+fun DiariodeClass() {
+    var presses by remember { mutableStateOf(0) }
 
-    )
-
+    Scaffold(
+        topBar = {
+            androidx.compose.material3.TopAppBar(
+                title = { Text("Top app bar") },
+                colors = topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.primaryContainer,
+                    titleContentColor = MaterialTheme.colorScheme.primary
+                )
+            )
+        },
+        bottomBar = {
+            Text(
+                text = "Rodapé",
+                modifier = Modifier.padding(16.dp)
+            )
+        }
+    ) { innerPadding ->
+        Column(modifier = Modifier.padding(innerPadding)) {
+            Text("Presses: $presses")
+        }
+    }
     @Composable
-    fun DiariodeClass() {
-        var presses by remember { mutableStateOf(0) }
+    fun DetatlhesAlunoButton(
+        expanded: Boolean,
+        onClick: ()-> Unit,
+        modifier: Modifier = Modifier
+    ){
+    }
+    @Composable
+    fun DetalhesAlunoButton(
+        expanded: Boolean,
+        onClick:() -> Unit,
+        modifier: Modifier = Modifier
+    ){
+        IconButton(
+            onClick = onClick,
+            modifier = Modifier
+        ) {
+            Icon(
+                ImageVector =Icons.Filled.ExpandMore,
+                contentDescription= null,
+                tint = MaterialTheme.colorScheme.secondary
+            )
+        }
+        Row (
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(dimensionResource(R.dimen.padding_small))
+        ){
+            DetatlhesAlunoButton(icon.imageResourceId)
+            DetalhesAluno(aluno.nome, aluno.curso)
+            DetalhesAlunoButton(
+                expanded = expanded,
+                { onClick{/*Todo*/} }
+            )
 
+
+        }
+
+    }
+}
+@Composable
+fun DetalhesAluno(){
+    Column {
+        Text(
+            text = "nota: 100"
+        )
+        Text(
+            text = "Faltas: 20%"
+        )
+    }
+}
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun DiarioDeClasseTopBar(modifier: Modifier = Modifier){
+
+    CenterAlignedTopAppBar(
+        title = {
+            Text(
+                "Diario de Classe"
+            )
+        },
+        modifier = modifier
+    )
+}
+@Preview(showSystemUi = true)
+@Composable
+fun DiarioDeClassePreview(){
+    DiarioDeClasseTheme {
         Scaffold(
+            modifier = Modifier,
             topBar = {
-                androidx.compose.material3.TopAppBar(
-                    title = { Text("Top app bar") },
-                    colors = topAppBarColors(
-                        containerColor = MaterialTheme.colorScheme.primaryContainer,
-                        titleContentColor = MaterialTheme.colorScheme.primary
-                    )
-                )
-            },
-            bottomBar = {
-                Text(
-                    text = "Rodapé",
-                    modifier = Modifier.padding(16.dp)
-                )
+                DiarioDeClasseTopBar()
             }
         ) { innerPadding ->
-            Column(modifier = Modifier.padding(innerPadding)) {
-                Text("Presses: $presses")
-            }
-        }
-        @Composable
-        private fun DetatlhesAlunoButton(
-            expanded: Boolean,
-            onClick: ()-> Unit,
-            modifier: Modifier = Modifier
-        ){
-        }
-        @Composable
-        fun DetalhesAlunoButton(
-            expanded: Boolean,
-            onClick:() -> Unit,
-            modifier: Modifier = Modifier
-        ){
-            IconButton(
-                onClick = onClick,
+            DiarioDeClasseApp(
                 modifier = Modifier
-            ) {
-                Icon(
-                    ImageVector =Icons.Filled.ExpandMore,
-                    contentDescription= null,
-                            tint = MaterialTheme.colorScheme.secondary
-                )
-            }
-            Row (
-              modifier = Modifier
-                  .fillMaxWidth()
-                  .padding(dimensionResource(R.dimen.padding_small))
-            ){
-             DetatlhesAlunoButton(icon.imageResourceId)
-
-
-            }
-
-        }
-    }
-    @Composable
-    fun DetalhesAluno(){
-        Column {
-            Text(
-                text = "nota: 100"
-            )
-            Text(
-                text = "Faltas: 20%"
+                    .padding(innerPadding)
             )
         }
     }
+}
 
-    }
+@Composable
+fun DiarioDeClasseTheme(content: @Composable () -> Unit) {
+    TODO("Not yet implemented")
+}
+
+
+}
