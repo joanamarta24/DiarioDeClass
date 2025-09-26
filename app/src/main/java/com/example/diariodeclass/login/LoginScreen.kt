@@ -7,8 +7,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.ViewModel
 
-fun LoginScreem(loginViewModel:LoginViewModel= viewModel()) {
+fun LoginScreem(loginViewModel:loginViewModel= viewModel()) {
     val loginUIState by loginViewModel.uiState.collectAsState()
+
 @Composable
 fun CampoTextoLoginSenha(
     value: String ="",
@@ -20,8 +21,8 @@ fun CampoTextoLoginSenha(
 
 {
     OutlinedTextField(
-        value = value,
-        onValueChange = onValueChange,
+        value = loginViewModel.login,
+        onValueChange ={loginViewModel.mudarTextoLogin(it)},
         label={
             Text(text = label)
         }
