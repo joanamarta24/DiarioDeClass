@@ -142,6 +142,8 @@ fun ListaDeAlunos(
     }
 }
 
+
+
 @Composable
 fun CardAluno(
     modifier: Modifier = Modifier,
